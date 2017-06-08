@@ -13,8 +13,10 @@ namespace IoC
 
         static UnityIoC()
         {
+            var memberResolver = new MemberResolver();
+
             Container = new Container()
-                .With(rules => rules.With(propertiesAndFields: DeclaredPublicProperties));
+                .With(rules => rules.With(propertiesAndFields: memberResolver.GetMembersToInject));
 
             var types = typeof(UnityIoC).Assembly.GetTypes();
 
@@ -37,16 +39,9 @@ namespace IoC
             }
         }
 
-        private static IEnumerable<PropertyOrFieldServiceInfo> DeclaredPublicProperties(Request request)
+        public static void InjectMembers(object target)
         {
-            return request.ServiceType.GetMembers(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).
-                Where(o => o.GetCustomAttributes(typeof(Inject), true).Any()).
-                Select(PropertyOrFieldServiceInfo.Of);
-        }
-
-        public static void InjectMembers(this MonoBehaviour monoBehaviour)
-        {
-            Container.InjectPropertiesAndFields(monoBehaviour);
+            Container.InjectPropertiesAndFields(target);
         }
     }
 }

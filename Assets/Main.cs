@@ -31,6 +31,7 @@ public class SettingsManager : ISettingsManager
     }
 }
 
+[Register]
 public class Main : InjectableMonoBehaviour
 {
     [Inject]

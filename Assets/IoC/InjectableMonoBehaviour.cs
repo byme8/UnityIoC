@@ -8,7 +8,7 @@ namespace IoC
     {
         private void Awake()
         {
-            this.InjectMembers();
+            UnityIoC.InjectMembers(this);
         }
     }
 }
