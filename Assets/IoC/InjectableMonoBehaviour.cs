@@ -8,7 +8,7 @@ namespace IoC
     {
         private void Awake()
         {
-            UnityIoC.InjectMembers(this);
+            UnityIoC.Container.InjectPropertiesAndFields(this);
         }
     }
 }

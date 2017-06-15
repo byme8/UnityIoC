@@ -21,6 +21,7 @@ public class SettingsManager : ISettingsManager
 {
     public SettingsManager()
     {
+        Debug.Log("Settings manager created");
         this.Name = "jek";
     }
 

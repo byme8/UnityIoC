@@ -38,10 +38,5 @@ namespace IoC
                 register(type, attribute);
             }
         }
-
-        public static void InjectMembers(object target)
-        {
-            Container.InjectPropertiesAndFields(target);
-        }
     }
 }
