@@ -20,22 +20,13 @@ namespace IoC
 
             var types = typeof(UnityIoC).Assembly.GetTypes();
 
-            RegisterByAttrubute<Register>(types, (type, attribute) => Container.Register(type));
-            RegisterByAttrubute<RegisterAs>(types, (type, attribute) => Container.Register(attribute.ServiceType, type));
-            RegisterByAttrubute<Singletone.Register>(types, (type, attribute) => Container.Register(type, Reuse.Singleton));
-            RegisterByAttrubute<Singletone.RegisterAs>(types, (type, attribute) => Container.Register(attribute.ServiceType, type, Reuse.Singleton));
-        }
-
-        public static void RegisterByAttrubute<TAttribute>(Type[] types, Action<Type, TAttribute> register)
-            where TAttribute : Attribute
-        {
             foreach (var type in types)
             {
-                var attribute = type.GetCustomAttributes(typeof(TAttribute), false).FirstOrDefault() as TAttribute;
+                var attribute = type.GetCustomAttributes(typeof(Register), false).FirstOrDefault() as Register;
                 if (attribute == null)
                     continue;
 
-                register(type, attribute);
+                Container.Register(attribute.InterfaceType ?? type, type, reuse: attribute.Reuse.ToInstance(), serviceKey: attribute.Key);
             }
         }
     }

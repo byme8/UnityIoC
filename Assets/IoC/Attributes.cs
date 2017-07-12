@@ -2,51 +2,45 @@
 
 namespace IoC
 {
-    public static class Singletone
-    {
-        [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-        public class Register : Attribute
-        {
-        }
-
-        [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-        public class RegisterAs : Attribute
-        {
-            public Type ServiceType
-            {
-                get;
-                private set;
-            }
-
-            public RegisterAs(Type serviceType)
-            {
-                this.ServiceType = serviceType;
-            }
-        }
-    }
-
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
     public class Inject : Attribute
     {
     }
 
-    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public class Register : Attribute
+    public enum Reuse
     {
+        Transient,
+        Singletone
+    }
+
+    public static class ReuseExtentions
+    {
+        public static DryIoc.IReuse ToInstance(this Reuse reuse)
+        {
+            switch (reuse)
+            {
+                case Reuse.Transient:
+                    return DryIoc.Reuse.Transient;
+                case Reuse.Singletone:
+                    return DryIoc.Reuse.Singleton;
+            }
+
+            return DryIoc.Reuse.Transient;
+        }
     }
 
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
-    public class RegisterAs : Attribute
+    public class Register : Attribute
     {
-        public Type ServiceType
+        public Register(Type interfaceType = null, Reuse reuse = IoC.Reuse.Transient, object key = null)
         {
-            get;
-            private set;
+            this.InterfaceType = interfaceType;
+            this.Reuse = reuse;
+            this.Key = key;
         }
 
-        public RegisterAs(Type serviceType)
-        {
-            this.ServiceType = serviceType;
-        }
+        public Type InterfaceType { get; private set; }
+        public Reuse Reuse { get; private set; }
+        public object Key { get; private set; }
     }
 }
