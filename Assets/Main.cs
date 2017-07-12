@@ -16,7 +16,7 @@ public interface ISettingsManager
     }
 }
 
-[Singletone.RegisterAs(typeof(ISettingsManager))]
+[Register(typeof(ISettingsManager), IoC.Reuse.Singletone)]
 public class SettingsManager : ISettingsManager
 {
     public SettingsManager()
@@ -32,10 +32,9 @@ public class SettingsManager : ISettingsManager
     }
 }
 
-[Register]
 public class Main : InjectableMonoBehaviour
 {
-    [Inject]
+    [Dependency]
     ISettingsManager settingsManager;
 
     private void Start()
