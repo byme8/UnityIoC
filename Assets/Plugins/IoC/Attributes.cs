@@ -7,28 +7,6 @@ namespace IoC
     {
     }
 
-    public enum Reuse
-    {
-        Transient,
-        Singletone
-    }
-
-    public static class ReuseExtentions
-    {
-        public static DryIoc.IReuse ToInstance(this Reuse reuse)
-        {
-            switch (reuse)
-            {
-                case Reuse.Transient:
-                    return DryIoc.Reuse.Transient;
-                case Reuse.Singletone:
-                    return DryIoc.Reuse.Singleton;
-            }
-
-            return DryIoc.Reuse.Transient;
-        }
-    }
-
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     public class Register : Attribute
     {

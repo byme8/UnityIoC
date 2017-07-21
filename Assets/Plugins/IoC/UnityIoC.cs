@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using DryIoc;
@@ -18,7 +19,10 @@ namespace IoC
             Container = new Container()
                 .With(rules => rules.With(propertiesAndFields: memberResolver.GetMembersToInject));
 
-            var types = typeof(UnityIoC).Assembly.GetTypes();
+            var a = new Stopwatch();
+            a.Start();
+
+            var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(o => o.GetTypes());
 
             foreach (var type in types)
             {
@@ -28,6 +32,9 @@ namespace IoC
 
                 Container.Register(attribute.InterfaceType ?? type, type, reuse: attribute.Reuse.ToInstance(), serviceKey: attribute.Key);
             }
+
+            a.Stop();
+            UnityEngine.Debug.Log(a.ElapsedMilliseconds);
         }
     }
 }
