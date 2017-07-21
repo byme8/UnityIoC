@@ -6,7 +6,7 @@ namespace IoC
 {
     public class InjectableMonoBehaviour : MonoBehaviour
     {
-        private void Awake()
+        protected virtual void Awake()
         {
             UnityIoC.Container.InjectPropertiesAndFields(this);
         }
