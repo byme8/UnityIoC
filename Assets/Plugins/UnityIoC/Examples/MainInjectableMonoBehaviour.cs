@@ -12,8 +12,14 @@ public class MainInjectableMonoBehaviour : InjectableMonoBehaviour
     [Dependency]
     ISettingsManager settingsManager;
 
-    private void Start()
+    private IEnumerator Start()
     {
-        Debug.Log("Name from resolved dependecy(attribute): " +this.settingsManager.Name);
+        var wait = new WaitForSeconds(1);
+
+        while (true)
+        {
+            Debug.Log("Name from resolved dependecy(attribute): " + this.settingsManager.Name);
+            yield return wait;
+        }
     }
 }

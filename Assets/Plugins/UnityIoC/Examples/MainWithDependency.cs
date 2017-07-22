@@ -1,12 +1,19 @@
+using System.Collections;
 using IoC;
 using UnityEngine;
 
 public class MainWithDependency : MonoBehaviour
 {
-    Dependency<ISettingsManager> settingsManager;
+    Dependency<ISettingsManager> settingsManager = new Dependency<ISettingsManager>();
 
-    private void Start()
+    private IEnumerator Start()
     {
-        Debug.Log("Name from resolved dependecy(class): " +this.settingsManager.Value.Name);
+        var wait = new WaitForSeconds(1);
+
+        while (true)
+        {
+            Debug.Log("Name from resolved dependecy(class): " + this.settingsManager.Value.Name);
+            yield return wait;
+        }
     }
 }

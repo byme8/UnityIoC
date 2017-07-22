@@ -18,7 +18,7 @@ namespace IoC
             if (!this.cache.ContainsKey(request.ServiceType))
             {
                 var members = request.ServiceType.GetMembers(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).
-                    Where(o => o.GetCustomAttributes(typeof(Dependency), true).Any()).
+                    Where(o => o.GetCustomAttributes(typeof(DependencyAttribute), true).Any()).
                     Select(PropertyOrFieldServiceInfo.Of).ToArray();
                 this.cache.Add(request.ServiceType, members);
             }

@@ -27,8 +27,31 @@ namespace IoC
                 if (attribute == null)
                     continue;
 
-                Container.Register(attribute.InterfaceType ?? type, type, reuse: attribute.Reuse.ToInstance(), serviceKey: attribute.Key);
+                if (type.ImplementsServiceType(typeof(MonoBehaviour)))
+                {
+                    RegisterUnityMonoBehaviour(type);
+                    continue;
+                }
+
+                RegisterOtherTypes(type, attribute);
             }
+        }
+
+        private static void RegisterOtherTypes(Type type, Register attribute)
+        {
+            Container.Register(
+                serviceType: attribute.InterfaceType ?? type,
+                implementationType: type,
+                reuse: attribute.Reuse.ToInstance(),
+                serviceKey: attribute.Key);
+        }
+
+        private static void RegisterUnityMonoBehaviour(Type type)
+        {
+            Container.RegisterDelegate(
+                serviceType: type,
+                factoryDelegate: o => GameObject.FindObjectOfType(type),
+                reuse: DryIoc.Reuse.Singleton);
         }
     }
 }
