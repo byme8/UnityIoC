@@ -19,6 +19,7 @@ public class MainInjectableMonoBehaviour : InjectableMonoBehaviour
         while (true)
         {
             Debug.Log("Name from resolved dependecy(attribute): " + this.settingsManager.Name);
+            Debug.Log("Count: " + this.settingsManager.Count);
             yield return wait;
         }
     }

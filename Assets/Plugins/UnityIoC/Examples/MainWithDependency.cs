@@ -13,6 +13,8 @@ public class MainWithDependency : MonoBehaviour
         while (true)
         {
             Debug.Log("Name from resolved dependecy(class): " + this.SettingsManager.Value.Name);
+            Debug.Log("Count: " + this.SettingsManager.Value.Count);
+
             yield return wait;
         }
     }

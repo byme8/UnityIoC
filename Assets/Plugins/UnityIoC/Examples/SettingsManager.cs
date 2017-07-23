@@ -8,6 +8,11 @@ public interface ISettingsManager
     {
         get;
     }
+
+    int Count
+    {
+        get;
+    }
 }
 
 [Register(typeof(ISettingsManager), IoC.Reuse.Singletone)]
@@ -20,11 +25,19 @@ public class SettingsManager : ISettingsManager
         Debug.Log("Settings manager created");
     }
 
+    public int Count
+    {
+        get
+        {
+            return this.Settings.Value.Count;
+        }
+    }
+
     public string Name
     {
         get
         {
-            return "Jek" + this.Settings.Value.Count;
+            return "Jek";
         }
     }
 }
