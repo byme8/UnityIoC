@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MainWithDependency : MonoBehaviour
 {
-    Dependency<ISettingsManager> settingsManager = new Dependency<ISettingsManager>();
+    public readonly Dependency<ISettingsManager> SettingsManager;
 
     private IEnumerator Start()
     {
@@ -12,7 +12,7 @@ public class MainWithDependency : MonoBehaviour
 
         while (true)
         {
-            Debug.Log("Name from resolved dependecy(class): " + this.settingsManager.Value.Name);
+            Debug.Log("Name from resolved dependecy(class): " + this.SettingsManager.Value.Name);
             yield return wait;
         }
     }

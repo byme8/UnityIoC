@@ -2,7 +2,7 @@ using DryIoc;
 
 namespace IoC
 {
-    public class Dependency<TValue>
+    public struct Dependency<TValue>
         where TValue : class
     {
         private TValue value;

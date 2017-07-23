@@ -13,7 +13,7 @@ public interface ISettingsManager
 [Register(typeof(ISettingsManager), IoC.Reuse.Singletone)]
 public class SettingsManager : ISettingsManager
 {
-    Dependency<SomeMonoBehaviourSettings> settings = new Dependency<SomeMonoBehaviourSettings>();
+    public readonly Dependency<SomeMonoBehaviourSettings> Settings;
 
     public SettingsManager()
     {
@@ -24,7 +24,7 @@ public class SettingsManager : ISettingsManager
     {
         get
         {
-            return "Jek" + this.settings.Value.Count;
+            return "Jek" + this.Settings.Value.Count;
         }
     }
 }
