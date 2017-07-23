@@ -21,8 +21,15 @@ namespace IoC
 
             var types = AppDomain.CurrentDomain.GetAssemblies().SelectMany(o => o.GetTypes());
 
+            var setupers = new List<Type>();
             foreach (var type in types)
             {
+                if (type.ImplementsServiceType(typeof(IContainerSetuper)))
+                {
+                    setupers.Add(type);
+                    Container.Register(type);
+                }
+
                 var attribute = type.GetCustomAttributes(typeof(Register), false).FirstOrDefault() as Register;
                 if (attribute == null)
                     continue;
@@ -34,6 +41,12 @@ namespace IoC
                 }
 
                 RegisterOtherTypes(type, attribute);
+            }
+
+            foreach (var setuper in setupers)
+            {
+                var containerSetuper = Container.Resolve(setuper) as IContainerSetuper;
+                containerSetuper.Setup(Container);
             }
         }
 
