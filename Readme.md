@@ -60,10 +60,24 @@ public class MainWithDependency : MonoBehaviour
 }
 ```
 
+If you require to setup container manually you can use IContainerSetuper interface, here is example:
+```
+public class SomeContainerSetuper : IContainerSetuper
+{
+    public readonly Dependency<ISettingsManager> Settings;
+
+    public void Setup(IContainer container)
+    {
+        Debug.Log("Name from setuper: " + this.Settings.Value.Name);
+        Debug.Log(string.Format("Registered {0} services", container.GetServiceRegistrations().Count()));
+    }
+}
+```
+
 According to benchmarks on my machine it cost ~100ms of startup time to find all classes marked with attributes.
 
 When you are inhereting from **InjectableMonoBehaviour** and using **Dependency** attribute to mark dependency it will cost additional 354ns(1ms = 1000ns) to find dependencies for current instance and plus 354ns per dependency to resolve.
 
-When you using *container* **Dependency** method for resolving it will cost 34ns per dependency. That's all, so I would like to recomend you use this method for defining your dependencies.
+When you using *container* **Dependency** method for resolving it will cost 34ns per dependency. So, I would like to recomend you to use this method for defining your dependencies.
 
 If you found some bug or have a question don't hesitate to create issues.
