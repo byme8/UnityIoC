@@ -8,6 +8,9 @@ using UnityEngine;
 
 namespace IoC
 {
+    /// <summary>
+    /// Handels the resolving members from instance.
+    /// </summary>
     public class MemberResolver
     {
         private readonly Dictionary<Type, PropertyOrFieldServiceInfo[]> cache 

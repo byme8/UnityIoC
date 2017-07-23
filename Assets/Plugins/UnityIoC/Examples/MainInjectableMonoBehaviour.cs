@@ -7,11 +7,21 @@ using DryIoc;
 using IoC;
 using UnityEngine;
 
+/// <summary>
+/// Example of using <see cref="InjectableMonoBehaviour"/> and <see cref="Dependency"/> attribute.
+/// </summary>
 public class MainInjectableMonoBehaviour : InjectableMonoBehaviour
 {
+    /// <summary>
+    /// Some settings manager which will be resolved as dependency.
+    /// </summary>
     [Dependency]
     ISettingsManager settingsManager;
 
+    /// <summary>
+    /// Starts calculation in play mode.
+    /// </summary>
+    /// <returns>The enumerator for coroutine.</returns>
     private IEnumerator Start()
     {
         var wait = new WaitForSeconds(1);

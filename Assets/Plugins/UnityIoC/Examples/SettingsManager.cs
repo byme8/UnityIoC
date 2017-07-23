@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityIoC.Examples;
 
+/// <summary>
+/// Provides interface for settings manager.
+/// </summary>
 public interface ISettingsManager
 {
     string Name
@@ -15,11 +18,20 @@ public interface ISettingsManager
     }
 }
 
+/// <summary>
+/// Implementation of <see cref="ISettingsManager"/> with dependencies. 
+/// </summary>
 [Register(typeof(ISettingsManager), IoC.Reuse.Singletone)]
 public class SettingsManager : ISettingsManager
 {
+    /// <summary>
+    /// Holds dependency to <see cref="MonoBehaviour"/> on scene.
+    /// </summary>
     public readonly Dependency<SomeMonoBehaviourSettings> Settings;
 
+    /// <summary>
+    /// Creates instance of <see cref="SettingsManager"/>
+    /// </summary>
     public SettingsManager()
     {
         Debug.Log("Settings manager created");
