@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using DryIoc;
 using UnityEngine;
 
@@ -34,7 +32,7 @@ namespace IoC
             foreach (var type in types)
             {
                 //
-                // Searching the all custotm container setupers.  
+                // Searching the all custotm container setupers.
                 //
                 if (type.ImplementsServiceType(typeof(IContainerSetuper)))
                 {
@@ -43,7 +41,7 @@ namespace IoC
                 }
 
                 //
-                // Handeling all types with Register attribute. 
+                // Handeling all types with Register attribute.
                 //
                 var attribute = type.GetCustomAttributes(typeof(Register), false).FirstOrDefault() as Register;
                 if (attribute == null)
@@ -54,7 +52,7 @@ namespace IoC
                 //
                 if (type.ImplementsServiceType(typeof(MonoBehaviour)))
                 {
-                    RegisterUnityMonoBehaviour(type);
+                    RegisterUnityMonoBehaviour(type, attribute);
                     continue;
                 }
 
@@ -86,13 +84,13 @@ namespace IoC
         }
 
         /// <summary>
-         /// Registering <see cref="MonoBehaviour"/> for search it on scene.
+        /// Registering <see cref="MonoBehaviour"/> for search it on scene.
         /// </summary>
         /// <param name="type">The type.</param>
-        private static void RegisterUnityMonoBehaviour(Type type)
+        private static void RegisterUnityMonoBehaviour(Type type, Register attribute)
         {
             Container.RegisterDelegate(
-                serviceType: type,
+                serviceType: attribute.InterfaceType ?? type,
                 factoryDelegate: o => GameObject.FindObjectOfType(type),
                 reuse: DryIoc.Reuse.Singleton);
         }
